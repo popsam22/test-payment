@@ -1,7 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import { Request, Response, response } from "express";
+import { Request, Response } from "express";
 
 dotenv.config();
 const API_SECRET_KEY = process.env.SECRET_KEY;
