@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist &&  npx tsc",
-    "start": "node dist/server.js",
-    "dev": "concurrently \"tsc --watch\" \"nodemon dist/server.js\""
+    "start": "node src/dist/server.js",
+    "dev": "concurrently \"tsc --watch\" \"nodemon src/dist/server.js\""
   },
   "keywords": [],
   "author": "",
