@@ -1,7 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import { Request, Response } from "express";
+import { Request, Response, response } from "express";
 
 dotenv.config();
 const API_SECRET_KEY = process.env.SECRET_KEY;
@@ -17,23 +17,14 @@ const verify = (
   return expectedSignature === signature;
 };
 
-export const initiateTransaction = () => {
+export const initiateTransaction = async (req: Request, res: Response) => {
   const transactionDetails = {
-    email: "customer@email.com",
+    email: "francis@email.com",
     amount: 100000,
-    metadata: {
-      custom_fields: [
-        {
-          display_name: "Customer's name",
-          variable_name: "customer_name",
-          value: "John Doe",
-        },
-      ],
-    },
   };
 
-  axios
-    .post(
+  try {
+    const response = await axios.post(
       "https://api.paystack.co/transaction/initialize",
       transactionDetails,
       {
@@ -41,13 +32,12 @@ export const initiateTransaction = () => {
           Authorization: `Bearer ${API_SECRET_KEY}`,
         },
       }
-    )
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    );
+    return res.status(201).json(response.data);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json(error);
+  }
 };
 
 export const webhook = (req: Request, res: Response) => {
