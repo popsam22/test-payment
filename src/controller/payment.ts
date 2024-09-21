@@ -36,7 +36,7 @@ export const initiateTransaction = async (req: Request, res: Response) => {
     return res.status(201).json(response.data);
   } catch (error) {
     console.error(error);
-    return res.status(500).json(error);
+    return res.status(500).json({ error });
   }
 };
 
@@ -47,9 +47,14 @@ export const webhook = (req: Request, res: Response) => {
     return res.status(400).json({ message: "Signature not verified" });
   }
 
-  if (eventData.event === "charge.success") {
-    const transactionId = eventData.data.id;
-    console.log(`Transaction ${transactionId} was successful`);
+  try {
+    if (eventData.event === "charge.success") {
+      const transactionId = eventData.data.id;
+      return res
+        .status(200)
+        .json({ message: `Transaction ${transactionId} was successful` });
+    }
+  } catch (error) {
+    return res.status(500).json({ error });
   }
-  return res.status(200).json({ message: "good webhook" });
 };
