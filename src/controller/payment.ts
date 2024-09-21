@@ -50,9 +50,10 @@ export const webhook = (req: Request, res: Response) => {
   try {
     if (eventData.event === "charge.success") {
       const transactionId = eventData.data.id;
-      return res
-        .status(200)
-        .json({ message: `Transaction ${transactionId} was successful` });
+      console.log(`Transaction ${transactionId} was successful`);
+      // return res
+      //   .status(200)
+      //   .json({ message: `Transaction ${transactionId} was successful` });
     }
   } catch (error) {
     return res.status(500).json({ error });
